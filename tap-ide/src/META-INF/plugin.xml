@@ -1,0 +1,70 @@
+<idea-plugin>
+    <depends>com.intellij.modules.java</depends>
+    <id>hms.tap.idea.plugin</id>
+    <name>hSenid Mobile TAP IDE</name>
+
+    <description><![CDATA[
+        All in one plugin for telco application development with hSenid mobile apis. Logon to hSenid mobile <a href="http://devspace.hsenidmobile.com/">DevSpace</a> for more details.
+        </br>
+        <h2>TAP IDE features</h2>
+            <ul>
+            <li>1. Telco application skeleton projects.</li>
+            <li>2. Code generation.</li>
+            <li>3. Ant based extensive build system.</li>
+            <li>4. Running and debugging applications.</li>
+            <li>5. Automatic code snippet generation for integrations.</li>
+            <li>6. In build tap simulator.</li>
+            <li>7. Integrated SDK for USSD session management.</li>
+            </ul>
+        ]]></description>
+
+    <version>1.0.0</version>
+    <vendor url="http://www.hsenidmobile.com/">hSenid Mobile</vendor>
+    <idea-version since-build="139.225"/>
+
+    <application-components>
+    <!-- Add your application components here -->
+    </application-components>
+
+    <project-components>
+    <!-- Add your project components here -->
+    </project-components>
+
+    <actions>
+      <group id="TAP.NewActions">
+          <separator/>
+          <action id="NewUssd" class="hms.tap.idea.plugin.action.NewServiceClassAction"/>
+          <add-to-group anchor="after" group-id="NewGroup" relative-to-action="NewFromTemplate"/>
+      </group>
+
+      <group id="Tap.Http.Clients" class="com.intellij.openapi.actionSystem.DefaultActionGroup">
+          <separator/>
+          <action id="smsClient" class="hms.tap.idea.plugin.action.snippet.SmsFieldGeneratorAction"></action>
+          <action id="ussdClient" class="hms.tap.idea.plugin.action.snippet.UssdFieldGeneratorAction"></action>
+          <action id="subscriptionClient" class="hms.tap.idea.plugin.action.snippet.SubscriptionFieldGeneratorAction"></action>
+          <action id="caasClient" class="hms.tap.idea.plugin.action.snippet.CaasFieldGeneratorAction"></action>
+          <action id="lbsClient" class="hms.tap.idea.plugin.action.snippet.LbsFieldGeneratorAction"></action>
+          <add-to-group group-id="GenerateGroup" anchor="last"/>
+      </group>
+      <group id="Tap.Api.Utils" class="com.intellij.openapi.actionSystem.DefaultActionGroup">
+          <separator/>
+          <action id="ussdSessionProcessor" class="hms.tap.idea.plugin.action.snippet.UssdMsgProcessorFieldGeneratorAction"></action>
+          <add-to-group group-id="GenerateGroup" anchor="last"/>
+      </group>
+
+      <group id="TAP.mainToolBarActions">
+          <separator/>
+          <action id="tap.simulator" class="hms.tap.idea.plugin.action.simulator.TapSimulatorStartAction"></action>
+          <separator/>
+          <add-to-group group-id="MainToolBar" anchor="last"/>
+      </group>
+    </actions>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+         <projectTemplate projectType="TAP Application" templatePath="resources/TAP_Sample_Service_Application.zip" category="true"/>
+         <configurationType implementation="hms.tap.idea.plugin.runner.conf.TapRunnerConfigurationType" />
+         <programRunner id="Run" implementation="hms.tap.idea.plugin.runner.runner.TapProgramRunner" order="first"/>
+         <programRunner id="Debug" implementation="hms.tap.idea.plugin.runner.runner.TapProgramDebugger" order="last" />
+    </extensions>
+</idea-plugin>
